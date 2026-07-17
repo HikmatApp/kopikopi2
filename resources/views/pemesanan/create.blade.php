@@ -358,7 +358,7 @@
 
             if (isNaN(qty) || qty < 0) {
                 qty = 1;
-                jumlah.value = 0;
+                jumlah.value = '';
             }
 
             if (qty > stok) {
