@@ -346,7 +346,7 @@
 
         // Ambil nilai dari Laravel
         const harga = Number(@json($hargaJual));
-        const stok = Number(@json($barang->stok));
+        const stok = Number(@json($barang - > stok));
 
         function formatRupiah(angka) {
             return 'Rp ' + angka.toLocaleString('id-ID');
@@ -356,9 +356,13 @@
 
             let qty = parseInt(jumlah.value);
 
-            if (isNaN(qty) || qty < 1) {
+            if (isNaN(qty)) {
+                total.value = 'Rp 0';
+                return;
+            }
+
+            if (qty < 1) {
                 qty = 1;
-                jumlah.value = 1;
             }
 
             if (qty > stok) {
@@ -374,6 +378,12 @@
         jumlah.addEventListener('keyup', hitungTotal);
         jumlah.addEventListener('change', hitungTotal);
         jumlah.addEventListener('input', hitungTotal);
+        jumlah.addEventListener('blur', function() {
+            if (jumlah.value === '') {
+                jumlah.value = 1;
+                hitungTotal();
+            }
+        });
 
         hitungTotal();
 
